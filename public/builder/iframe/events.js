@@ -1,0 +1,1 @@
+function simulateClick(e,n){var t=document.createEvent("MouseEvent"),o=document.elementFromPoint(e,n);t.initMouseEvent("mousedown",!0,!0,window,null,e,n,0,0,!1,!1,!1,!1,0,null),o.dispatchEvent(t)}

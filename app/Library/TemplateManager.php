@@ -13,63 +13,23 @@ class TemplateManager
         $this->path = $path;
     }
 
-    public function readFromDir($path): array
+    public function getItemFromPath($path): TemplateItem
     {
-        $templateSchemas = [];
-        $directories = File::directories($path);
-
-        foreach ($directories as $directory) {
-            $schema = $this->readSchemaByDir($directory);
-
-            //
-            $templateSchemas[] = $schema;
-        }
-
-        return $templateSchemas;
+        return new TemplateItem($path);
     }
 
-    public function readSchemaByDir($directory)
+    public function getAllTemplateItems(): array
     {
-        //
-        $schema = [];
+        $templateItems = [];
+        $directories = File::directories($this->path);
 
-        // @path
-        $schema['path'] = basename($directory);
+        foreach ($directories as $path) {
+            $templateItem = new TemplateItem($path);
 
-        // @Thumb
-        $thumbPathPng = $directory . '/thumb.png';
-        $thumbPathSvg = $directory . '/thumb.svg';
-
-        if (File::exists($thumbPathSvg)) {
-            $schema['thumb_path'] = basename($directory) . '/thumb.svg';
-        } elseif (File::exists($thumbPathPng)) {
-            $schema['thumb_path'] = basename($directory) . '/thumb.png';
+            //
+            $templateItems[] = $templateItem;
         }
 
-        // @title
-        // Load the index.html file
-        $filename = $directory . '/index.html';
-        if (!file_exists($filename)) {
-            die("File not found!");
-        }
-
-        $html = file_get_contents($filename);
-
-        // Create a new DOMDocument
-        $dom = new \DOMDocument();
-        libxml_use_internal_errors(true); // Prevents warnings due to malformed HTML
-        $dom->loadHTML($html);
-        libxml_clear_errors();
-
-        // Get the <title> tag content
-        $titleTag = $dom->getElementsByTagName('title');
-
-        if ($titleTag->length > 0) {
-            $schema['title'] = $titleTag->item(0)->textContent;
-        } else {
-            $schema['title'] = "No title tag found!";
-        }
-
-        return $schema;
+        return $templateItems;
     }
 }

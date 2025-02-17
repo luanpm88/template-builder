@@ -218,21 +218,21 @@
             <div class="container">
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    @foreach ($templateSchemas as $schema)
+                    @foreach ($templateItems as $templateItem)
                         <div class="col">
                             <div class="card shadow-sm">
-                                <img src="{{ asset('templates/' . $schema['thumb_path']) }}" alt="" />
+                                <img src="{{ asset('templates/' . $templateItem->thumbPath) }}" alt="" />
                                 <div class="card-body">
-                                    <h5>{{ $schema['title'] }}</h5>
+                                    <h5>{{ $templateItem->title }}</h5>
                                     <p class="card-text">This is a wider card with supporting text below as a natural
                                         lead-in to additional content. This content is a little bit longer.</p>
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="btn-group">
                                             <a href="{{ action([\App\Http\Controllers\DesignController::class, 'previewWithBuilder'], [
-                                                'path' => $schema['path'],
+                                                'path' => $templateItem->baseName,
                                             ]) }}" class="btn btn-sm btn-primary">Preview with Builder</a>
                                             <a target="_blank" href="{{ action([\App\Http\Controllers\DesignController::class, 'preview'], [
-                                                'path' => $schema['path'],
+                                                'path' => $templateItem->baseName,
                                             ]) }}" class="btn btn-sm btn-outline-secondary">Preview</a>
                                             
                                         </div>

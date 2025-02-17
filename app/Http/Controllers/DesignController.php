@@ -10,28 +10,29 @@ class DesignController extends Controller
     public function index()
     {
         $manager = new \App\Library\TemplateManager(public_path('templates'));
-        $templateSchemas = $manager->readFromDir(public_path('templates'));
+        $templateItems = $manager->getAllTemplateItems();
         
         return view('design.index', [
-            'templateSchemas' => $templateSchemas,
+            'templateItems' => $templateItems,
         ]);
     }
 
     public function previewWithBuilder($path)
     {
         $manager = new \App\Library\TemplateManager(public_path('templates'));
-        $templateSchema = $manager->readSchemaByDir(public_path('templates') . '/' . $path);
+        $templateItem = $manager->getItemFromPath(public_path('templates') . '/' . $path);
 
         return view('design.previewWithBuilder', [
-            'templateSchema' => $templateSchema,
+            'templateItem' => $templateItem,
         ]);
     }
 
     public function preview($path)
     {
         $manager = new \App\Library\TemplateManager(public_path('templates'));
-        $templateSchema = $manager->readSchemaByDir(public_path('templates') . '/' . $path);
+        $templateItem = $manager->getItemFromPath(public_path('templates') . '/' . $path);
 
-        echo file_get_contents(public_path('templates') . '/' . $path . '/index.html');
+        // echo file_get_contents(public_path('templates') . '/' . $path . '/index.html');
+        echo $templateItem->renderContent();
     }
 }

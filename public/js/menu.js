@@ -39,7 +39,8 @@ $(function() {
     
 
     // Design --> Exit; Top Right Exit button
-    $('[builder-action="exit"]').on('click', function() {
+    $('[builder-action="exit"]').on('click', function(e) {
+        e.preventDefault();
         editor.back();
     });
 

@@ -29,19 +29,18 @@
                 showInlineToolbar: true, // default == true
                 root: '{{ asset('/builder') }}',
                 url: '{{ action([\App\Http\Controllers\DesignController::class, 'preview'], [
-                    'path' => $templateSchema['path'],
+                    'path' => $templateItem->baseName,
                 ]) }}',
+
+                backCallback: function() {
+                    window.location = '/';
+                },
+
                 uploadAssetUrl: 'asset.php',
                 uploadAssetMethod: 'POST',
                 uploadTemplateUrl: 'upload.php',
                 uploadTemplateCallback: function(response) {
                     window.location = response.url;
-                },
-                saveUrl: 'save-to-disk.php', // You can try with other sample server scripts like: save-to-mysql.php or save-to-aws-s3.php
-                saveMethod: 'POST',
-                data: {
-                    _token: 'CSRF_TOKEN',
-                    type: 'POST',
                 },
                 tags: tags,
                 changeTemplateCallback: function(url) {
@@ -134,9 +133,9 @@
                         </div>
                         <div class="d-flex align-items-center">
                             <a href="{{ action([\App\Http\Controllers\DesignController::class, 'previewWithBuilder'], [
-                                'path' => $templateSchema['path'],
+                                'path' => $templateItem->baseName,
                             ]) }}">
-                                <button builder-action="exit" class="btn btn-primary btn-close menu-bar-action d-flex align-items-center">
+                                <button type="button" builder-action="exit" class="btn btn-primary btn-close menu-bar-action d-flex align-items-center">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </a>
